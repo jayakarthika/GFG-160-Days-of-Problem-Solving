@@ -1,0 +1,76 @@
+Day - 5
+Problem - Next Permutation
+Given an array of integers arr[] representing a permutation, implement the next permutation that rearranges the numbers into the lexicographically next greater permutation. If no such permutation exists, rearrange the numbers into the lowest possible order (i.e., sorted in ascending order). 
+
+Note - A permutation of an array of integers refers to a specific arrangement of its elements in a sequence or linear order.
+
+Examples:
+
+Input: arr = [2, 4, 1, 7, 5, 0]
+Output: [2, 4, 5, 0, 1, 7]
+Explanation: The next permutation of the given array is {2, 4, 5, 0, 1, 7}.
+Input: arr = [3, 2, 1]
+Output: [1, 2, 3]
+Explanation: As arr[] is the last permutation, the next permutation is the lowest one.
+Input: arr = [3, 4, 2, 5, 1]
+Output: [3, 4, 5, 1, 2]
+Explanation: The next permutation of the given array is {3, 4, 5, 1, 2}.
+
+Code:
+
+import java.util.*;
+
+class Main {
+    public static void nextPermutation(int[] arr) {
+        int n = arr.length;
+        int pivot = -1;
+        for(int i=n-2;i>=0;i--){
+            if(arr[i]<arr[i+1]){
+                pivot = i;
+                break;
+            }
+        }
+        if(pivot==-1){
+            reverseArr(arr, 0, n-1);
+            return;
+        }
+        
+        for(int j=n-1;j>pivot;j--){
+            if(arr[j]>arr[pivot]){
+                swap(arr, j, pivot);
+                break;
+            }
+        }
+        
+        reverseArr(arr, pivot+1, n-1);
+    }
+    
+    public static void reverseArr(int[] arr, int start, int end){
+        while(start<end){
+            swap(arr, start, end);
+            start++;
+            end--;
+        }
+    }
+    
+    public static void swap(int[]arr, int a, int b){
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+    
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the length of array: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        System.out.println("Enter the values of array: ");
+        for(int i=0;i<n;i++){
+            arr[i] = sc.nextInt();
+        }
+        nextPermutation(arr);
+        for(int i=0;i<n;i++){
+            System.out.print(arr[i]+" ");
+        }
+    }
+}
